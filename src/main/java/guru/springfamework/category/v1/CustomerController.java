@@ -19,22 +19,29 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomerListDTO> getAllCustomers(){
+    public ResponseEntity<CustomerListDTO> getAllCustomers() {
 
         return new ResponseEntity<CustomerListDTO>(
                 new CustomerListDTO(customerService.getAllCustomers()), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<CustomerDTO> getCustomersById(@PathVariable Long id){
+    public ResponseEntity<CustomerDTO> getCustomersById(@PathVariable Long id) {
         return new ResponseEntity<CustomerDTO>(
-                customerService.getCustomerById(id),HttpStatus.OK);
+                customerService.getCustomerById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO){
+    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
         return new ResponseEntity<CustomerDTO>(
                 customerService.createNewCustomer(customerDTO), HttpStatus.CREATED);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO) {
+        return new ResponseEntity<CustomerDTO>(
+                customerService.saveCustomerByDTO(id, customerDTO), HttpStatus.CREATED);
+    }
+
 
 }
