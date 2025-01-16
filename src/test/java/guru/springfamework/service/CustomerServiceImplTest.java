@@ -2,6 +2,7 @@ package guru.springfamework.service;
 
 import guru.springfamework.api.v1.mapper.CustomerMapper;
 import guru.springfamework.api.v1.model.CustomerDTO;
+import guru.springfamework.category.v1.CustomerController;
 import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CustomerRepository;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class CustomerServiceImplTest {
 
         List<CustomerDTO> customerDTO = customerService.getAllCustomers();
 
-        assertEquals(3,customerDTO.size());
+        assertEquals(3, customerDTO.size());
 
     }
 
@@ -60,33 +61,35 @@ public class CustomerServiceImplTest {
 
         CustomerDTO customerDTO = customerService.getCustomerById(ID);
 
-        assertEquals(FIRST_NAME,customerDTO.getFirstName());
-        assertEquals(LAST_NAME,customerDTO.getLastName());
+        assertEquals(FIRST_NAME, customerDTO.getFirstName());
+        assertEquals(LAST_NAME, customerDTO.getLastName());
 
     }
 
     @Test
-    public void createNewCustomer(){
+    public void createNewCustomer() {
 
+        //given
         CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setFirstName(FIRST_NAME);
+        customerDTO.setFirstName("Jim");
 
         Customer savedCustomer = new Customer();
-        savedCustomer.setFirstName(FIRST_NAME);
-        savedCustomer.setLastName(LAST_NAME);
-        savedCustomer.setId(ID);
+        savedCustomer.setFirstName(customerDTO.getFirstName());
+        savedCustomer.setLastName(customerDTO.getLastName());
+        savedCustomer.setId(1l);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
 
-        CustomerDTO savedDTO = customerService.createNewCustomer(customerDTO);
+        //when
+        CustomerDTO savedDto = customerService.createNewCustomer(customerDTO);
 
-        assertEquals(FIRST_NAME,savedDTO.getFirstName());
-        assertEquals(LAST_NAME,savedDTO.getLastName());
-        assertEquals("/api/v1/customers/1",savedDTO.getCustomerUrl());
+        //then
+        assertEquals(customerDTO.getFirstName(), savedDto.getFirstName());
+        assertEquals(CustomerController.BASE_URL + "1", savedDto.getCustomerUrl());
     }
 
     @Test
-    public void saveCustomerByDTO(){
+    public void saveCustomerByDTO() {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setFirstName(FIRST_NAME);
 
@@ -99,12 +102,12 @@ public class CustomerServiceImplTest {
 
         CustomerDTO savedDTO = customerService.saveCustomerByDTO(ID, customerDTO);
 
-        assertEquals(FIRST_NAME,savedDTO.getFirstName());
-        assertEquals("/api/v1/customers/1",savedDTO.getCustomerUrl());
+        assertEquals(FIRST_NAME, savedDTO.getFirstName());
+        assertEquals(CustomerController.BASE_URL + "1", savedDTO.getCustomerUrl());
     }
 
     @Test
-    public void deleteById(){
+    public void deleteById() {
 
         customerRepository.deleteById(ID);
 
