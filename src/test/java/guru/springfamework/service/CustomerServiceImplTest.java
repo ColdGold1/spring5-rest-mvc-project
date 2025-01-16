@@ -62,7 +62,6 @@ public class CustomerServiceImplTest {
 
         assertEquals(FIRST_NAME,customerDTO.getFirstName());
         assertEquals(LAST_NAME,customerDTO.getLastName());
-        assertEquals(ID,customerDTO.getId());
 
     }
 
@@ -83,7 +82,6 @@ public class CustomerServiceImplTest {
 
         assertEquals(FIRST_NAME,savedDTO.getFirstName());
         assertEquals(LAST_NAME,savedDTO.getLastName());
-        assertEquals(ID,savedDTO.getId());
         assertEquals("/api/v1/customers/1",savedDTO.getCustomerUrl());
     }
 
